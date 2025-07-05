@@ -1,0 +1,27 @@
+{
+  "name": "com.insomniaguildgames.dialoguesystem",
+  "version": "1.0.0",
+  "displayName": "Dialogue System",
+  "description": "A comprehensive graph-based dialogue system for Unity featuring character portraits, variables, conditional branching, and a powerful visual editor. Perfect for RPGs, visual novels, and story-driven games.",
+  "unity": "2022.3",
+  "dependencies": {
+    "com.unity.textmeshpro": "3.0.6",
+    "com.unity.ugui": "1.0.0"
+  },
+  "keywords": [
+    "dialogue",
+    "conversation",
+    "narrative",
+    "graph",
+    "editor",
+    "rpg",
+    "story",
+    "visual novel",
+    "ui",
+    "character"
+  ],
+  "author": {
+    "name": "Paul E. Lovato",
+    "url": "https://github.com/Cleanse"
+  }
+}

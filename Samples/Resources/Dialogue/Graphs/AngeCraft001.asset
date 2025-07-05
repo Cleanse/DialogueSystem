@@ -1,0 +1,167 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-5076437285011559699
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78fdb077bcc04a0fa9108ab3c7e38878, type: 3}
+  m_Name: Speech Node - Marshal
+  m_EditorClassIdentifier: 
+  m_NodeId: 2e0d1655-f93b-49ad-96c9-eef46cdab478
+  m_Position: {x: -781.5, y: -627.5}
+  m_Connections:
+  - eb8fca97-28f6-47da-9db9-49fd9e3f3b17
+  speakerName: Marshal
+  speakerCharacter: {fileID: 11400000, guid: 035303ba79a9c401a8fa1f408ed49ea4, type: 2}
+  portraitName: Default
+  dialogueText: Yo! Good evening, Ange!
+--- !u!114 &-4863422520072282518
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 578bb87929a545d398ce9aaff2317f08, type: 3}
+  m_Name: Choice Node
+  m_EditorClassIdentifier: 
+  m_NodeId: 71c3cec3-f0b2-47ce-a2e4-17b01be3ee6d
+  m_Position: {x: -60, y: -617}
+  m_Connections:
+  - 811ca720-6b42-4b64-a4e1-834f631856c7
+  - 69961406-df61-4032-a42f-2c9d55e79eb3
+  speakerName: Marshal
+  speakerCharacter: {fileID: 11400000, guid: 035303ba79a9c401a8fa1f408ed49ea4, type: 2}
+  portraitName: Default
+  promptText: ...
+  choiceTexts:
+  - No
+  - Yes
+--- !u!114 &-1766652495603813415
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78fdb077bcc04a0fa9108ab3c7e38878, type: 3}
+  m_Name: Start Node
+  m_EditorClassIdentifier: 
+  m_NodeId: eb8fca97-28f6-47da-9db9-49fd9e3f3b17
+  m_Position: {x: -409, y: -686}
+  m_Connections:
+  - 71c3cec3-f0b2-47ce-a2e4-17b01be3ee6d
+  speakerName: Ange
+  speakerCharacter: {fileID: 11400000, guid: 5dfcd3942e5844223b3af34425d112ef, type: 2}
+  portraitName: Default
+  dialogueText: Marshal, do you have your relic tools yet?
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceca7d1d108846d98f1eb2b7dcd4d324, type: 3}
+  m_Name: AngeCraft001
+  m_EditorClassIdentifier: 
+  m_Nodes:
+  - {fileID: -1766652495603813415}
+  - {fileID: -4863422520072282518}
+  - {fileID: 3817419171309757092}
+  - {fileID: 4807447110401832596}
+  - {fileID: 8107034989199697543}
+  - {fileID: 4060890442783374171}
+  - {fileID: -5076437285011559699}
+  m_StartNodeId: 2e0d1655-f93b-49ad-96c9-eef46cdab478
+--- !u!114 &3817419171309757092
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78fdb077bcc04a0fa9108ab3c7e38878, type: 3}
+  m_Name: Speech Node
+  m_EditorClassIdentifier: 
+  m_NodeId: 811ca720-6b42-4b64-a4e1-834f631856c7
+  m_Position: {x: 297, y: -794}
+  m_Connections:
+  - 508010cd-9df5-4a90-ab6a-86e14651728a
+  speakerName: Ange
+  speakerCharacter: {fileID: 11400000, guid: 5dfcd3942e5844223b3af34425d112ef, type: 2}
+  portraitName: Default
+  dialogueText: You should create a set of macros for the crafts, it speeds up the
+    process.
+--- !u!114 &4060890442783374171
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78fdb077bcc04a0fa9108ab3c7e38878, type: 3}
+  m_Name: Speech Node - Marshal
+  m_EditorClassIdentifier: 
+  m_NodeId: 508010cd-9df5-4a90-ab6a-86e14651728a
+  m_Position: {x: 718, y: -677}
+  m_Connections: []
+  speakerName: Marshal
+  speakerCharacter: {fileID: 11400000, guid: 035303ba79a9c401a8fa1f408ed49ea4, type: 2}
+  portraitName: Default
+  dialogueText: That is a great idea, that way I can chat with a cute catgirl as
+    the crafts are automated...
+--- !u!114 &4807447110401832596
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78fdb077bcc04a0fa9108ab3c7e38878, type: 3}
+  m_Name: Speech Node
+  m_EditorClassIdentifier: 
+  m_NodeId: 69961406-df61-4032-a42f-2c9d55e79eb3
+  m_Position: {x: 297, y: -427.5}
+  m_Connections:
+  - e8c9dd60-a298-483c-a701-1e81014b48dc
+  speakerName: Ange
+  speakerCharacter: {fileID: 11400000, guid: 5dfcd3942e5844223b3af34425d112ef, type: 2}
+  portraitName: Default
+  dialogueText: Oh, okay. Did you do all the weather-based crafts?
+--- !u!114 &8107034989199697543
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78fdb077bcc04a0fa9108ab3c7e38878, type: 3}
+  m_Name: Speech Node - Marshal
+  m_EditorClassIdentifier: 
+  m_NodeId: e8c9dd60-a298-483c-a701-1e81014b48dc
+  m_Position: {x: 718, y: -353}
+  m_Connections: []
+  speakerName: Marshal
+  speakerCharacter: {fileID: 11400000, guid: 035303ba79a9c401a8fa1f408ed49ea4, type: 2}
+  portraitName: Default
+  dialogueText: Soon. I have been busy chatting with a bunny girl.

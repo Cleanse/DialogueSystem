@@ -1,0 +1,284 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-5031269860621784085
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78fdb077bcc04a0fa9108ab3c7e38878, type: 3}
+  m_Name: New Speech Node
+  m_EditorClassIdentifier: 
+  m_NodeId: 3e481f25-fab0-4e82-9773-b2401b864be9
+  m_Position: {x: 1652, y: -1286.5}
+  m_Connections:
+  - 39e59ad2-64b9-4dc4-b9b6-a2dda1a98942
+  speakerName: Ange
+  speakerCharacter: {fileID: 11400000, guid: 5dfcd3942e5844223b3af34425d112ef, type: 2}
+  expression: Default
+  dialogueText: Okay!
+--- !u!114 &-2942858847931972594
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 068adc4d787b4daeb8e8cefb921a2735, type: 3}
+  m_Name: Variable Set Node
+  m_EditorClassIdentifier: 
+  m_NodeId: 6d5b826f-267b-4ea3-b260-dd7f2e03814b
+  m_Position: {x: 881.5, y: -1114.5}
+  m_Connections:
+  - 008352b8-8776-47ba-8c8e-1a8cc38bc104
+  operations:
+  - variableName: pvp_with_marshal
+    operationType: 0
+    valueType: 3
+    value: False
+    useCurrentVariableValue: 0
+    sourceVariableName: pvp_with_marshal
+  logOperations: 1
+--- !u!114 &-2649602787298456549
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78fdb077bcc04a0fa9108ab3c7e38878, type: 3}
+  m_Name: Start Node
+  m_EditorClassIdentifier: 
+  m_NodeId: 75aca491-66dd-4819-8d8b-f321162f0e93
+  m_Position: {x: -667, y: -1114.5}
+  m_Connections:
+  - 50f59186-28ac-4342-ae22-3dd5954823bf
+  - 50f59186-28ac-4342-ae22-3dd5954823bf
+  speakerName: Marshal
+  speakerCharacter: {fileID: 11400000, guid: 035303ba79a9c401a8fa1f408ed49ea4, type: 2}
+  expression: Default
+  dialogueText: Yo!
+--- !u!114 &-2157699410726075929
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78fdb077bcc04a0fa9108ab3c7e38878, type: 3}
+  m_Name: New Speech Node
+  m_EditorClassIdentifier: 
+  m_NodeId: 03d3fc87-bd44-4489-9298-03815920389d
+  m_Position: {x: 96.5, y: -1333}
+  m_Connections:
+  - 073be51d-1937-4d3e-a237-168dec9c1c97
+  speakerName: Marshal
+  speakerCharacter: {fileID: 11400000, guid: 035303ba79a9c401a8fa1f408ed49ea4, type: 2}
+  expression: Default
+  dialogueText: Would you like to PvP?
+--- !u!114 &-517538601981935742
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d00c4b4aa944c9d86ff70b2b6a40c0d, type: 3}
+  m_Name: Conditional Node
+  m_EditorClassIdentifier: 
+  m_NodeId: 39e59ad2-64b9-4dc4-b9b6-a2dda1a98942
+  m_Position: {x: 2043, y: -1391}
+  m_Connections:
+  - 74b8795b-2f1d-4d0a-b609-3d24df8ed75e
+  - ff6a75af-2dc2-4bd0-822c-767cee90b7d6
+  conditions:
+  - variableName: pvp_with_marshal
+    comparisonType: 0
+    valueType: 3
+    expectedValue: True
+    description: Is "pvp_with_marshal" true?
+  logicType: 0
+  logEvaluation: 0
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceca7d1d108846d98f1eb2b7dcd4d324, type: 3}
+  m_Name: ThePvPQuest
+  m_EditorClassIdentifier: 
+  m_Nodes:
+  - {fileID: -2649602787298456549}
+  - {fileID: 4629314842948935231}
+  - {fileID: -2157699410726075929}
+  - {fileID: 4349667551265907302}
+  - {fileID: 9193370377329528776}
+  - {fileID: 8612626462739744494}
+  - {fileID: -5031269860621784085}
+  - {fileID: -517538601981935742}
+  - {fileID: 4395656470856306014}
+  - {fileID: 3118275595056255251}
+  - {fileID: -2942858847931972594}
+  - {fileID: 912442670562110403}
+  m_StartNodeId: 75aca491-66dd-4819-8d8b-f321162f0e93
+--- !u!114 &912442670562110403
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 068adc4d787b4daeb8e8cefb921a2735, type: 3}
+  m_Name: Variable Set Node
+  m_EditorClassIdentifier: 
+  m_NodeId: 0c734dfa-a6e9-4851-9de3-9d447244c533
+  m_Position: {x: 881.5, y: -1431.5}
+  m_Connections:
+  - 0328eb53-9663-42fe-a58e-b3866e78f4d1
+  operations:
+  - variableName: pvp_with_marshal
+    operationType: 0
+    valueType: 3
+    value: True
+    useCurrentVariableValue: 0
+    sourceVariableName: pvp_with_marshal
+  logOperations: 1
+--- !u!114 &3118275595056255251
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78fdb077bcc04a0fa9108ab3c7e38878, type: 3}
+  m_Name: Speech Node
+  m_EditorClassIdentifier: 
+  m_NodeId: 74b8795b-2f1d-4d0a-b609-3d24df8ed75e
+  m_Position: {x: 2414, y: -1542}
+  m_Connections: []
+  speakerName: Ange
+  speakerCharacter: {fileID: 11400000, guid: 5dfcd3942e5844223b3af34425d112ef, type: 2}
+  expression: Default
+  dialogueText: '*A few moments later* Okay, I''m ready!'
+--- !u!114 &4349667551265907302
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 578bb87929a545d398ce9aaff2317f08, type: 3}
+  m_Name: New Choice Node
+  m_EditorClassIdentifier: 
+  m_NodeId: 073be51d-1937-4d3e-a237-168dec9c1c97
+  m_Position: {x: 481, y: -1286.5}
+  m_Connections:
+  - 0c734dfa-a6e9-4851-9de3-9d447244c533
+  - 6d5b826f-267b-4ea3-b260-dd7f2e03814b
+  speakerName: Ange
+  speakerCharacter: {fileID: 11400000, guid: 5dfcd3942e5844223b3af34425d112ef, type: 2}
+  expression: Default
+  promptText: 
+  choiceTexts:
+  - Yes, but give me a moment.
+  - Not tonight.
+--- !u!114 &4395656470856306014
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78fdb077bcc04a0fa9108ab3c7e38878, type: 3}
+  m_Name: Speech Node
+  m_EditorClassIdentifier: 
+  m_NodeId: ff6a75af-2dc2-4bd0-822c-767cee90b7d6
+  m_Position: {x: 2414, y: -1165.5}
+  m_Connections: []
+  speakerName: Ange
+  speakerCharacter: {fileID: 11400000, guid: 5dfcd3942e5844223b3af34425d112ef, type: 2}
+  expression: Default
+  dialogueText: Good luck!
+--- !u!114 &4629314842948935231
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78fdb077bcc04a0fa9108ab3c7e38878, type: 3}
+  m_Name: New Speech Node
+  m_EditorClassIdentifier: 
+  m_NodeId: 50f59186-28ac-4342-ae22-3dd5954823bf
+  m_Position: {x: -278.5, y: -1219.5}
+  m_Connections:
+  - 03d3fc87-bd44-4489-9298-03815920389d
+  speakerName: Ange
+  speakerCharacter: {fileID: 11400000, guid: 5dfcd3942e5844223b3af34425d112ef, type: 2}
+  expression: Default
+  dialogueText: Hello.
+--- !u!114 &8612626462739744494
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78fdb077bcc04a0fa9108ab3c7e38878, type: 3}
+  m_Name: New Speech Node
+  m_EditorClassIdentifier: 
+  m_NodeId: 008352b8-8776-47ba-8c8e-1a8cc38bc104
+  m_Position: {x: 1280, y: -1095.5}
+  m_Connections:
+  - 3e481f25-fab0-4e82-9773-b2401b864be9
+  speakerName: Marshal
+  speakerCharacter: {fileID: 11400000, guid: 035303ba79a9c401a8fa1f408ed49ea4, type: 2}
+  expression: Default
+  dialogueText: No problem. Maybe we can PvP another day.
+--- !u!114 &9193370377329528776
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78fdb077bcc04a0fa9108ab3c7e38878, type: 3}
+  m_Name: New Speech Node
+  m_EditorClassIdentifier: 
+  m_NodeId: 0328eb53-9663-42fe-a58e-b3866e78f4d1
+  m_Position: {x: 1280, y: -1480.5}
+  m_Connections:
+  - 3e481f25-fab0-4e82-9773-b2401b864be9
+  speakerName: Marshal
+  speakerCharacter: {fileID: 11400000, guid: 035303ba79a9c401a8fa1f408ed49ea4, type: 2}
+  expression: Default
+  dialogueText: Okay, awesome. Let me know when you are ready. I'll be crafting.
