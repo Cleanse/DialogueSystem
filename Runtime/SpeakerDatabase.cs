@@ -1,6 +1,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 namespace DialogueSystem
 {
@@ -193,17 +196,36 @@ namespace DialogueSystem
         /// </summary>
         void OnValidate()
         {
+            // Skip validation during play mode to avoid unnecessary warnings
+            if (Application.isPlaying)
+                return;
+                
             // Remove null characters
             characters.RemoveAll(c => c == null);
             
-            // Check for duplicate names
-            var duplicateGroups = characters.GroupBy(c => c.CharacterName)
-                                          .Where(g => g.Count() > 1);
+            // Use a more robust validation that handles Unity's serialization timing
+            EditorApplication.delayCall += ValidateCharacterNames;
+        }
+        
+        void ValidateCharacterNames()
+        {
+            if (this == null || characters == null) return;
+            
+            // Check for duplicate names, but ignore default/empty names to avoid false positives
+            var validCharacters = characters.Where(c => c != null && 
+                                                      !string.IsNullOrEmpty(c.CharacterName) && 
+                                                      c.CharacterName != "Character Name" && 
+                                                      c.CharacterName != "New Character")
+                                          .ToList();
+            
+            var duplicateGroups = validCharacters.GroupBy(c => c.CharacterName)
+                                               .Where(g => g.Count() > 1);
             
             foreach (var group in duplicateGroups)
             {
-                Debug.LogWarning($"Multiple characters with name '{group.Key}' found in Speaker Database. " +
-                               "This may cause unexpected behavior.", this);
+                var characterList = string.Join(", ", group.Select(c => c.name));
+                Debug.LogWarning($"Multiple characters with name '{group.Key}' found in Speaker Database " +
+                               $"(Assets: {characterList}). This may cause unexpected behavior.", this);
             }
         }
         

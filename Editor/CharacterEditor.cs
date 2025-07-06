@@ -3,7 +3,7 @@ using UnityEditor;
 using UnityEngine;
 using System.Collections.Generic;
 
-namespace DialogueSystem.Editor
+namespace DialogueSystem
 {
     /// <summary>
     /// Custom inspector for Character assets with enhanced portrait list management.

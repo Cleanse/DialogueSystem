@@ -9,14 +9,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 10af195b32ddd42d39f1051aaf265679, type: 3}
+  m_Script: {fileID: 11500000, guid: 94ee563747b254df0bd9c904f1ce01ae, type: 3}
   m_Name: Ange
   m_EditorClassIdentifier: 
   characterName: Ange
-  characterDescription: Storing millions of magikarps in pc boxes on a daily basis.
-  defaultPortrait: {fileID: 21300000, guid: 832b1624a928a462f8e96cfea03c9957, type: 3}
-  expressions:
-  - expressionName: Happy
-    portrait: {fileID: 21300000, guid: cbbf661df76434688aa420df82f4f66a, type: 3}
+  characterDescription: A powerful pictomancer.
+  defaultPortrait: {fileID: 21300000, guid: b8b618562120b48f48c5d231c3e5bc15, type: 3}
+  portraits:
+  - portraitName: Happy
+    portrait: {fileID: 21300000, guid: f355cbe0c2f534a3ea6a708c6bfd303f, type: 3}
   voicePitch: 1
   voiceClip: {fileID: 0}

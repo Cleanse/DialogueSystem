@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEditor;
 
-namespace DialogueSystem.Editor
+namespace DialogueSystem
 {
     /// <summary>
     /// Custom property drawer for Character fields in the inspector.

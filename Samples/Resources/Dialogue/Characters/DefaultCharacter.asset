@@ -9,12 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 10af195b32ddd42d39f1051aaf265679, type: 3}
+  m_Script: {fileID: 11500000, guid: 94ee563747b254df0bd9c904f1ce01ae, type: 3}
   m_Name: DefaultCharacter
   m_EditorClassIdentifier: 
   characterName: Default
-  characterDescription: A default character
-  defaultPortrait: {fileID: 21300000, guid: fe655254ad46343a6bbd28c8ea13fe89, type: 3}
-  expressions: []
+  characterDescription: A default character, usually signifying you need to select
+    the character you actually want for the dialogue node.
+  defaultPortrait: {fileID: 21300000, guid: e6f979f6562ec4e449ffb76c8dd35e68, type: 3}
+  portraits: []
   voicePitch: 1
   voiceClip: {fileID: 0}

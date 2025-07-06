@@ -38,6 +38,15 @@ namespace DialogueSystem
         private List<DialogueOption> _currentOptions = new List<DialogueOption>();
         private CanvasGroup _canvasGroup;
         
+        /// <summary>
+        /// Check if dialogue selection is currently active.
+        /// </summary>
+        public bool IsSelectionActive => selectionPanel != null && selectionPanel.activeInHierarchy;
+        
+        [Header("Input Settings")]
+        [Tooltip("Global input settings for dialogue system. If null, will create default settings.")]
+        [SerializeField] private DialogueInputSettings inputSettings;
+        
         void Awake()
         {
             // Get or find DialogueUI
@@ -45,6 +54,20 @@ namespace DialogueSystem
             if (_dialogueUI == null)
             {
                 Debug.LogError("DialogueSelectionUI: No DialogueUI found in scene!");
+            }
+            
+            // Initialize input settings if not assigned
+            if (inputSettings == null)
+            {
+                // Try to find existing input settings in Resources
+                inputSettings = Resources.Load<DialogueInputSettings>("DialogueInputSettings");
+                
+                // If still null, create default settings at runtime
+                if (inputSettings == null)
+                {
+                    inputSettings = ScriptableObject.CreateInstance<DialogueInputSettings>();
+                    inputSettings.ResetToDefaults();
+                }
             }
             
             // Get canvas group for animations
@@ -91,6 +114,7 @@ namespace DialogueSystem
         /// <param name="portraitName">Portrait name to display (optional)</param>
         public void ShowDialogueSelection(string npcName, List<DialogueOption> dialogueOptions, Character npcCharacter, string portraitName = "Default")
         {
+            
             if (dialogueOptions == null || dialogueOptions.Count == 0)
             {
                 Debug.LogWarning("No dialogue options provided");

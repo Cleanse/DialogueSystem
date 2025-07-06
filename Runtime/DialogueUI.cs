@@ -37,10 +37,19 @@ namespace DialogueSystem
         [SerializeField] private AudioClip dialogueEndSound;
         [SerializeField] private AudioClip choiceSelectSound;
         
+        [Header("Input Settings")]
+        [Tooltip("Global input settings for dialogue system. If null, will create default settings.")]
+        [SerializeField] private DialogueInputSettings inputSettings;
+        
         private DialogueRunner _dialogueRunner;
         private Coroutine _typewriterCoroutine;
         private bool _isTyping;
         private string _fullText = "";
+        
+        /// <summary>
+        /// Check if dialogue is currently active.
+        /// </summary>
+        public bool IsDialogueActive => dialoguePanel != null && dialoguePanel.activeInHierarchy;
         
         void Awake()
         {
@@ -50,6 +59,22 @@ namespace DialogueSystem
             {
                 GameObject runnerObj = new GameObject("DialogueRunner");
                 _dialogueRunner = runnerObj.AddComponent<DialogueRunner>();
+            }
+            
+            // Initialize input settings if not assigned
+            if (inputSettings == null)
+            {
+                // Try to find existing input settings in Resources
+                inputSettings = Resources.Load<DialogueInputSettings>("DialogueInputSettings");
+                
+                // If still null, create default settings at runtime
+                if (inputSettings == null)
+                {
+                    inputSettings = ScriptableObject.CreateInstance<DialogueInputSettings>();
+                    inputSettings.ResetToDefaults();
+                    Debug.LogWarning("DialogueUI: No DialogueInputSettings assigned. Using default settings. " +
+                                   "Consider creating a DialogueInputSettings asset for persistent configuration.");
+                }
             }
             
             // Subscribe to dialogue events
@@ -107,6 +132,7 @@ namespace DialogueSystem
             _dialogueRunner.EndDialogue();
         }
         
+        
         #endregion
         
         #region Event Handlers
@@ -119,8 +145,10 @@ namespace DialogueSystem
         
         void OnDialogueEnded()
         {
+            // Immediately close UI - input consumption will prevent conflicts
             SetDialogueUIActive(false);
             ClearChoices();
+            UpdateContinueButtonText();
             PlaySound(dialogueEndSound);
         }
         
@@ -430,16 +458,46 @@ namespace DialogueSystem
         
         #endregion
         
-        #region Input Handling (Optional)
+        #region Input Handling
         
         void Update()
         {
-            // Can use space or enter to continue dialogue
-            if (_dialogueRunner.IsRunning && (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return)))
+            if (inputSettings == null) return;
+            
+            // Handle dialogue advancement input when running
+            if (_dialogueRunner.IsRunning && inputSettings.IsDialogueAdvancementKeyPressed())
             {
                 if (continueButton != null && continueButton.gameObject.activeInHierarchy)
                 {
+                    // Consume interaction key if it was used for advancement
+                    if (inputSettings.useInteractionKeysForContinuation)
+                    {
+                        inputSettings.ConsumeInteractionKey();
+                    }
                     OnContinueClicked();
+                }
+            }
+        }
+        
+        
+        /// <summary>
+        /// Update the continue button text with current available keys.
+        /// </summary>
+        private void UpdateContinueButtonText()
+        {
+            if (continueButton != null && inputSettings != null)
+            {
+                string keyText = inputSettings.GetAdvancementKeyText();
+                
+                // Update any text component on the button
+                var buttonText = continueButton.GetComponentInChildren<TMPro.TextMeshProUGUI>();
+                if (buttonText != null)
+                {
+                    // Only update if it currently shows "Continue" or already has key info
+                    if (buttonText.text.Contains("Continue") || buttonText.text.Contains("Close") || buttonText.text.Contains("("))
+                    {
+                        buttonText.text = $"Continue ({keyText})";
+                    }
                 }
             }
         }

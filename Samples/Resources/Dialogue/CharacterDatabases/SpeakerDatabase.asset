@@ -9,10 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ad11a9aac9e4c4026bfdc567807ffb73, type: 3}
+  m_Script: {fileID: 11500000, guid: bc14cc18f51b247d599b494abc803a86, type: 3}
   m_Name: SpeakerDatabase
   m_EditorClassIdentifier: 
   characters:
-  - {fileID: 11400000, guid: 5dfcd3942e5844223b3af34425d112ef, type: 2}
-  - {fileID: 11400000, guid: 035303ba79a9c401a8fa1f408ed49ea4, type: 2}
-  fallbackCharacter: {fileID: 11400000, guid: c98c6375bc2b64b94989ac2fbb4a807e, type: 2}
+  - {fileID: 11400000, guid: 0f4469568928249479a384a8ebeee58a, type: 2}
+  - {fileID: 11400000, guid: b095aa50481004415bd55a2aa58599ce, type: 2}
+  fallbackCharacter: {fileID: 11400000, guid: c3bce291ee9f548cda0fbcd13422162c, type: 2}

@@ -3,7 +3,7 @@ using UnityEditor;
 using UnityEngine;
 using System.Linq;
 
-namespace DialogueSystem.Editor
+namespace DialogueSystem
 {
     /// <summary>
     /// Custom inspector for the dialogue graph asset.

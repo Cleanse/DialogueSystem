@@ -1,8 +1,15 @@
 {
     "name": "DialogueSystem.Editor",
     "rootNamespace": "DialogueSystem.Editor",
-    "references": [],
-    "includePlatforms": [],
+    "references": [
+        "DialogueSystem",
+        "Unity.AppUI.Editor",
+        "UnityEditor.GraphViewModule",
+        "UnityEditor.UIElementsModule"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,

@@ -1,7 +1,10 @@
 {
     "name": "DialogueSystem",
     "rootNamespace": "DialogueSystem",
-    "references": [],
+    "references": [
+        "Unity.AppUI",
+        "Unity.TextMeshPro"
+    ],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,

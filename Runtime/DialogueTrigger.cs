@@ -6,36 +6,42 @@ namespace DialogueSystem
 {
     /// <summary>
     /// Component that triggers dialogue when interacted with.
+    /// Requires a Character asset for NPC information, portraits, and audio settings.
     /// Supports both single dialogues and multiple dialogue selection.
     /// Can be used on NPCs, objects, or trigger zones.
     /// </summary>
     public class DialogueTrigger : MonoBehaviour
     {
         [Header("NPC Settings")]
-        [SerializeField] private string npcName = "NPC";
-        [SerializeField] private Character npcCharacter;
-        [SerializeField] private string npcPortraitName = "Default";
+        [SerializeField, Tooltip("Character asset containing NPC information, portraits, and audio settings")]
+        private Character npcCharacter;
+        [SerializeField, Tooltip("Portrait to display from the Character asset (0 = Default)")]
+        private int selectedPortraitIndex;
         [SerializeField] private bool triggerOnStart;
         [SerializeField] private bool triggerOnCollision = true;
         [SerializeField] private bool triggerOnInteraction = true;
-        [SerializeField] private KeyCode interactionKey = KeyCode.E;
         
-        [Header("Single Dialogue (Legacy Support)")]
+        [Header("Single Dialogue")]
         [SerializeField] private DialogueGraphAsset dialogueGraph;
         
         [Header("Multiple Dialogue Options")]
         [SerializeField] private List<DialogueOption> dialogueOptions = new List<DialogueOption>();
         [SerializeField] private bool sortByPriority = true;
-        [SerializeField] private bool showUnavailableOptions = false;
+        [SerializeField] private bool showUnavailableOptions;
         
         [Header("UI Settings")]
         [SerializeField] private GameObject interactionPrompt;
         [SerializeField] private float interactionDistance = 3f;
-        [SerializeField] private string interactionPromptText = "Press T to talk";
+        [Tooltip("Leave empty to auto-generate based on interaction keys")]
+        [SerializeField] private string customInteractionPromptText = "";
         
         [Header("Fallback Dialogue")]
         [SerializeField] private DialogueGraphAsset fallbackDialogue;
         [SerializeField] private bool useFallbackWhenNoOptions = true;
+        
+        [Header("Input Settings")]
+        [Tooltip("Global input settings for dialogue system. If null, will use default settings.")]
+        [SerializeField] private DialogueInputSettings inputSettings;
         
         private DialogueSelectionUI _dialogueSelectionUI;
         private DialogueUI _dialogueUI;
@@ -45,6 +51,20 @@ namespace DialogueSystem
         
         void Start()
         {
+            // Initialize input settings if not assigned
+            if (inputSettings == null)
+            {
+                // Try to find existing input settings in Resources
+                inputSettings = Resources.Load<DialogueInputSettings>("DialogueInputSettings");
+                
+                // If still null, create default settings at runtime
+                if (inputSettings == null)
+                {
+                    inputSettings = ScriptableObject.CreateInstance<DialogueInputSettings>();
+                    inputSettings.ResetToDefaults();
+                }
+            }
+            
             // Find UI components
             _dialogueSelectionUI = FindFirstObjectByType<DialogueSelectionUI>();
             _dialogueUI = FindFirstObjectByType<DialogueUI>();
@@ -64,8 +84,8 @@ namespace DialogueSystem
             // Setup interaction prompt
             SetupInteractionPrompt();
             
-            // Try to auto-assign character if not set
-            TryAutoAssignCharacter();
+            // Validate character assignment
+            ValidateCharacterAssignment();
             
             // Initialize dialogue options
             InitializeDialogueOptions();
@@ -93,8 +113,10 @@ namespace DialogueSystem
                 ShowInteractionPrompt(_playerInRange);
             }
             
-            // Check for interaction input
-            if (_playerInRange && Input.GetKeyDown(interactionKey))
+            // Check for interaction input (only if no dialogue is active and key is available)
+            if (_playerInRange && inputSettings != null && 
+                !IsAnyDialogueActive() && 
+                inputSettings.IsInteractionKeyAvailable())
             {
                 TriggerDialogue();
             }
@@ -139,7 +161,7 @@ namespace DialogueSystem
                 }
                 else
                 {
-                    Debug.LogWarning($"No available dialogue options for {npcName}");
+                    Debug.LogWarning($"No available dialogue options for {GetNPCName()}");
                 }
                 return;
             }
@@ -255,65 +277,112 @@ namespace DialogueSystem
         #region Private Methods
         
         /// <summary>
-        /// Try to auto-assign a character based on the NPC name and available Speaker Database.
+        /// Get the NPC name from the assigned Character asset.
         /// </summary>
-        void TryAutoAssignCharacter()
+        /// <returns>Character name or fallback if no character assigned</returns>
+        private string GetNPCName()
         {
-            if (npcCharacter == null && !string.IsNullOrEmpty(npcName))
-            {
-                var speakerDatabase = GetSpeakerDatabase();
-                if (speakerDatabase != null)
-                {
-                    var character = speakerDatabase.GetCharacter(npcName);
-                    if (character != null)
-                    {
-                        npcCharacter = character;
-                        if (string.IsNullOrEmpty(npcPortraitName))
-                        {
-                            npcPortraitName = "Default";
-                        }
-                        Debug.Log($"Auto-assigned character '{character.CharacterName}' to DialogueTrigger '{gameObject.name}'");
-                    }
-                }
-            }
+            return npcCharacter != null ? npcCharacter.CharacterName : "Unknown NPC";
         }
         
         /// <summary>
-        /// Get the Speaker Database for character lookup.
+        /// Get the selected portrait name from the Character asset.
         /// </summary>
-        SpeakerDatabase GetSpeakerDatabase()
+        /// <returns>Portrait name based on selected index</returns>
+        private string GetSelectedPortraitName()
         {
-            #if UNITY_EDITOR
-            // Find any speaker database in the project
-            string[] databaseGuids = UnityEditor.AssetDatabase.FindAssets("t:SpeakerDatabase");
-            if (databaseGuids.Length > 0)
-            {
-                string databasePath = UnityEditor.AssetDatabase.GUIDToAssetPath(databaseGuids[0]);
-                return UnityEditor.AssetDatabase.LoadAssetAtPath<SpeakerDatabase>(databasePath);
-            }
-            #else
-            // At runtime, try to find through Resources or other means
-            var allSpeakerDatabases = Resources.FindObjectsOfTypeAll<SpeakerDatabase>();
-            if (allSpeakerDatabases.Length > 0)
-            {
-                return allSpeakerDatabases[0];
-            }
-            #endif
+            if (npcCharacter == null)
+                return "Default";
+                
+            string[] portraitNames = npcCharacter.GetPortraitNames();
             
-            return null;
+            // Clamp the index to valid range
+            int clampedIndex = Mathf.Clamp(selectedPortraitIndex, 0, portraitNames.Length - 1);
+            
+            return portraitNames[clampedIndex];
         }
+        
+        /// <summary>
+        /// Check if any dialogue system component is currently active.
+        /// </summary>
+        /// <returns>True if dialogue or selection UI is active</returns>
+        private bool IsAnyDialogueActive()
+        {
+            // Check DialogueUI state
+            if (_dialogueUI != null && _dialogueUI.IsDialogueActive)
+                return true;
+                
+            // Check DialogueSelectionUI state
+            if (_dialogueSelectionUI != null && _dialogueSelectionUI.IsSelectionActive)
+                return true;
+                
+            return false;
+        }
+        
+        /// <summary>
+        /// Validate that the NPC character is properly assigned and portrait index is valid.
+        /// </summary>
+        void ValidateCharacterAssignment()
+        {
+            if (npcCharacter == null)
+            {
+                Debug.LogError($"DialogueTrigger on '{gameObject.name}' requires a Character asset. Please assign one in the NPC Settings.");
+                enabled = false; // Disable component if no character assigned
+                return;
+            }
+            
+            // Validate and clamp the portrait index
+            string[] portraitNames = npcCharacter.GetPortraitNames();
+            if (selectedPortraitIndex >= portraitNames.Length)
+            {
+                Debug.LogWarning($"Portrait index {selectedPortraitIndex} is out of range for character '{npcCharacter.CharacterName}'. Using default portrait.");
+                selectedPortraitIndex = 0; // Reset to default
+            }
+            else if (selectedPortraitIndex < 0)
+            {
+                selectedPortraitIndex = 0; // Ensure non-negative
+            }
+        }
+        
         
         void SetupInteractionPrompt()
         {
             if (interactionPrompt != null)
             {
                 _promptText = interactionPrompt.GetComponentInChildren<TMPro.TextMeshProUGUI>();
-                if (_promptText != null && !string.IsNullOrEmpty(interactionPromptText))
+                if (_promptText != null)
                 {
-                    _promptText.text = interactionPromptText;
+                    string promptText = GetInteractionPromptText();
+                    if (!string.IsNullOrEmpty(promptText))
+                    {
+                        _promptText.text = promptText;
+                    }
                 }
                 interactionPrompt.SetActive(false);
             }
+        }
+        
+        /// <summary>
+        /// Get the interaction prompt text, either custom or auto-generated from interaction keys.
+        /// </summary>
+        /// <returns>The interaction prompt text to display</returns>
+        private string GetInteractionPromptText()
+        {
+            // Use custom text if provided
+            if (!string.IsNullOrEmpty(customInteractionPromptText))
+            {
+                return customInteractionPromptText;
+            }
+            
+            // Generate dynamic text based on interaction keys
+            if (inputSettings != null)
+            {
+                string keyText = inputSettings.GetInteractionKeyText();
+                return $"Press {keyText} to talk";
+            }
+            
+            // Fallback text
+            return "Press T to talk";
         }
         
         void InitializeDialogueOptions()
@@ -329,7 +398,7 @@ namespace DialogueSystem
             // Auto-generate read variable name if not set
             if (option.markAsReadAfterCompleted && string.IsNullOrEmpty(option.readVariableName))
             {
-                option.readVariableName = $"{npcName}_{option.displayName}_read".Replace(" ", "_").ToLower();
+                option.readVariableName = $"{GetNPCName()}_{option.displayName}_read".Replace(" ", "_").ToLower();
             }
         }
         
@@ -442,7 +511,7 @@ namespace DialogueSystem
             }
             catch
             {
-                return string.Compare(value1?.ToString() ?? "", value2?.ToString() ?? "");
+                return string.Compare(value1?.ToString() ?? "", value2?.ToString() ?? "", System.StringComparison.Ordinal);
             }
         }
         
@@ -450,14 +519,15 @@ namespace DialogueSystem
         {
             if (_dialogueSelectionUI != null)
             {
-                // Use character-aware method if character is assigned
+                // Use character-aware method since character is required
                 if (npcCharacter != null)
                 {
-                    _dialogueSelectionUI.ShowDialogueSelection(npcName, options, npcCharacter, npcPortraitName);
+                    string portraitName = GetSelectedPortraitName();
+                    _dialogueSelectionUI.ShowDialogueSelection(GetNPCName(), options, npcCharacter, portraitName);
                 }
                 else
                 {
-                    _dialogueSelectionUI.ShowDialogueSelection(npcName, options);
+                    Debug.LogError("Cannot show dialogue selection: Character asset is required but not assigned.");
                 }
             }
             else
@@ -505,7 +575,7 @@ namespace DialogueSystem
             
             #if UNITY_EDITOR
             int totalDialogues = dialogueOptions.Count + (dialogueGraph != null ? 1 : 0);
-            UnityEditor.Handles.Label(textPos, $"{npcName}\n{totalDialogues} dialogue(s)");
+            UnityEditor.Handles.Label(textPos, $"{GetNPCName()}\n{totalDialogues} dialogue(s)");
             #endif
         }
         

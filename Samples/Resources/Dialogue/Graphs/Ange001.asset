@@ -1,0 +1,144 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-5894593547062418852
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6cd8e684c9ff64ced8e33499c64139b8, type: 3}
+  m_Name: Speech Node - Ange
+  m_EditorClassIdentifier: 
+  m_NodeId: f3420716-37d0-4a68-9839-716d78708256
+  m_Position: {x: -670, y: -443}
+  m_Connections:
+  - 0bbc6255-886f-4cfb-af0c-0f005bdf17d1
+  speakerName: Ange
+  speakerCharacter: {fileID: 11400000, guid: 0f4469568928249479a384a8ebeee58a, type: 2}
+  portraitName: Default
+  dialogueText: Hello.
+--- !u!114 &-4285516811941144992
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6cd8e684c9ff64ced8e33499c64139b8, type: 3}
+  m_Name: Speech Node - Marshal
+  m_EditorClassIdentifier: 
+  m_NodeId: 0bbc6255-886f-4cfb-af0c-0f005bdf17d1
+  m_Position: {x: -288, y: -507.5}
+  m_Connections:
+  - 6047e905-e372-4be5-a073-c542393cfeb2
+  speakerName: Marshal
+  speakerCharacter: {fileID: 11400000, guid: b095aa50481004415bd55a2aa58599ce, type: 2}
+  portraitName: Default
+  dialogueText: Yo! How are you tonight?!
+--- !u!114 &-3564409791634801948
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6cd8e684c9ff64ced8e33499c64139b8, type: 3}
+  m_Name: Speech Node - Ange
+  m_EditorClassIdentifier: 
+  m_NodeId: 6047e905-e372-4be5-a073-c542393cfeb2
+  m_Position: {x: 73, y: -382}
+  m_Connections:
+  - e5f889d0-52f9-47a9-a1a9-df8d83a46932
+  speakerName: Ange
+  speakerCharacter: {fileID: 11400000, guid: 0f4469568928249479a384a8ebeee58a, type: 2}
+  portraitName: Happy
+  dialogueText: I'm okay. Raid soon, but first enchiladas!
+--- !u!114 &-3071958671535552617
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c43537394fe34df9a2090fca8170361, type: 3}
+  m_Name: Choice Node - Marshal
+  m_EditorClassIdentifier: 
+  m_NodeId: e5f889d0-52f9-47a9-a1a9-df8d83a46932
+  m_Position: {x: 459.5, y: -223}
+  m_Connections:
+  - d2821a96-df26-4421-9a66-d80bdb7c59c1
+  - b3a053aa-eb56-48e4-8ae0-307c70c62cfe
+  speakerName: Marshal
+  speakerCharacter: {fileID: 11400000, guid: b095aa50481004415bd55a2aa58599ce, type: 2}
+  portraitName: Happy
+  promptText: ...
+  choiceTexts:
+  - Share!
+  - Ooh, I know what I'm requesting.
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e03262f0d28d04954840a5b17a7c9201, type: 3}
+  m_Name: Ange001
+  m_EditorClassIdentifier: 
+  m_Nodes:
+  - {fileID: -5894593547062418852}
+  - {fileID: -4285516811941144992}
+  - {fileID: -3564409791634801948}
+  - {fileID: -3071958671535552617}
+  - {fileID: 7203396185653523331}
+  - {fileID: 6921210917633738113}
+  m_StartNodeId: f3420716-37d0-4a68-9839-716d78708256
+--- !u!114 &6921210917633738113
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6cd8e684c9ff64ced8e33499c64139b8, type: 3}
+  m_Name: Speech Node - Ange
+  m_EditorClassIdentifier: 
+  m_NodeId: b3a053aa-eb56-48e4-8ae0-307c70c62cfe
+  m_Position: {x: 979, y: -63.5}
+  m_Connections: []
+  speakerName: Ange
+  speakerCharacter: {fileID: 11400000, guid: 0f4469568928249479a384a8ebeee58a, type: 2}
+  portraitName: Happy
+  dialogueText: Yes! Do it!
+--- !u!114 &7203396185653523331
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6cd8e684c9ff64ced8e33499c64139b8, type: 3}
+  m_Name: Speech Node - Ange
+  m_EditorClassIdentifier: 
+  m_NodeId: d2821a96-df26-4421-9a66-d80bdb7c59c1
+  m_Position: {x: 935.5, y: -440.5}
+  m_Connections: []
+  speakerName: Ange
+  speakerCharacter: {fileID: 11400000, guid: 0f4469568928249479a384a8ebeee58a, type: 2}
+  portraitName: Happy
+  dialogueText: '*laughs*'

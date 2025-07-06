@@ -9,12 +9,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 10af195b32ddd42d39f1051aaf265679, type: 3}
+  m_Script: {fileID: 11500000, guid: 94ee563747b254df0bd9c904f1ce01ae, type: 3}
   m_Name: Marshal
   m_EditorClassIdentifier: 
   characterName: Marshal
-  characterDescription: A noob.
-  defaultPortrait: {fileID: 21300000, guid: 9354dc1fe313543568c212b1161410eb, type: 3}
-  expressions: []
+  characterDescription: An alchemist from Orthard.
+  defaultPortrait: {fileID: 21300000, guid: 6fdf3bea7dd4f4f5c81166d105b36fa0, type: 3}
+  portraits:
+  - portraitName: Happy
+    portrait: {fileID: 21300000, guid: 0613635feff5c4a48aacc8ec7a495e52, type: 3}
   voicePitch: 1
   voiceClip: {fileID: 0}

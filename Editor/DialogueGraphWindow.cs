@@ -7,7 +7,7 @@ using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace DialogueSystem.Editor
+namespace DialogueSystem
 {
     /// <summary>
     /// Editor window for creating and editing DialogueGraphAsset objects with built-in inspector.
@@ -41,10 +41,18 @@ namespace DialogueSystem.Editor
         {
             var root = rootVisualElement;
             
-            // Load stylesheet
+            // Load stylesheet - try package path first, then Assets path for development
             var styleSheet =
                 AssetDatabase.LoadAssetAtPath<StyleSheet>(
                     "Packages/com.insomniaguildgames.dialoguesystem/Editor/DialogueEditorStyles.uss");
+            
+            // Fallback to Assets path for development builds
+            if (styleSheet == null)
+            {
+                styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>(
+                    "Assets/DialogueSystem/Editor/DialogueEditorStyles.uss");
+            }
+            
             if (styleSheet != null)
                 root.styleSheets.Add(styleSheet);
             
