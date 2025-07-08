@@ -95,3 +95,10 @@ UI components use Unity's UI Elements. The main UI controller is `DialogueUI.cs`
 - DialogueVariableManager provides inspector debugging for variable states
 - Graph validation runs automatically in the editor
 - Console logs provide execution flow information
+
+## Before creating new code:
+- [ ] Searched for similar functionality
+- [ ] Looked for similar UI components
+- [ ] Verified no existing hook handles this state
+- [ ] Confirmed can't extend existing methods
+- [ ] Considered if feature flag in existing component works

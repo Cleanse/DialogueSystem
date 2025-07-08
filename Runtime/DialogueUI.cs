@@ -19,7 +19,7 @@ namespace DialogueSystem
         
         [Header("Character Portrait")]
         [SerializeField] private GameObject portraitContainer;
-        [SerializeField] private UnityEngine.UI.Image speakerPortrait;
+        [SerializeField] private Image speakerPortrait;
         [SerializeField] private Sprite defaultPortraitSprite;
         
         [Header("Choice UI")]
@@ -145,10 +145,8 @@ namespace DialogueSystem
         
         void OnDialogueEnded()
         {
-            // Immediately close UI - input consumption will prevent conflicts
             SetDialogueUIActive(false);
             ClearChoices();
-            UpdateContinueButtonText();
             PlaySound(dialogueEndSound);
         }
         
@@ -190,14 +188,7 @@ namespace DialogueSystem
             // Set character portrait
             UpdateCharacterPortrait(choiceNode.GetSpeakerPortrait());
             
-            if (dialogueText != null)
-            {
-                dialogueText.text = choiceNode.promptText;
-            }
-            else
-            {
-                dialogueText.text = "...";
-            }
+            dialogueText.text = dialogueText != null ? choiceNode.promptText : "...";
             
             // Create choice buttons
             CreateChoiceButtons(choiceNode);
@@ -406,7 +397,7 @@ namespace DialogueSystem
         /// Execute a function by name. Override this method to implement your game-specific functions.
         /// </summary>
         /// <param name="functionName">The name of the function to execute.</param>
-        protected virtual void ExecuteFunction(string functionName)
+        private void ExecuteFunction(string functionName)
         {
             switch (functionName.ToLower())
             {
@@ -475,29 +466,6 @@ namespace DialogueSystem
                         inputSettings.ConsumeInteractionKey();
                     }
                     OnContinueClicked();
-                }
-            }
-        }
-        
-        
-        /// <summary>
-        /// Update the continue button text with current available keys.
-        /// </summary>
-        private void UpdateContinueButtonText()
-        {
-            if (continueButton != null && inputSettings != null)
-            {
-                string keyText = inputSettings.GetAdvancementKeyText();
-                
-                // Update any text component on the button
-                var buttonText = continueButton.GetComponentInChildren<TMPro.TextMeshProUGUI>();
-                if (buttonText != null)
-                {
-                    // Only update if it currently shows "Continue" or already has key info
-                    if (buttonText.text.Contains("Continue") || buttonText.text.Contains("Close") || buttonText.text.Contains("("))
-                    {
-                        buttonText.text = $"Continue ({keyText})";
-                    }
                 }
             }
         }

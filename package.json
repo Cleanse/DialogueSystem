@@ -1,6 +1,6 @@
 {
   "name": "com.insomniaguildgames.dialoguesystem",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "displayName": "Dialogue System",
   "description": "A comprehensive graph-based dialogue system for Unity featuring character portraits, variables, conditional branching, and a powerful visual editor. Perfect for RPGs, visual novels, and story-driven games.",
   "unity": "2022.3",
@@ -23,5 +23,12 @@
   "author": {
     "name": "Paul E. Lovato",
     "url": "https://github.com/Cleanse"
-  }
+  },
+  "samples": [
+    {
+      "displayName": "Complete Dialogue System",
+      "description": "Complete sample with UI prefabs, characters, dialogue assets, and demo scene. Includes example characters (Ange, Marshal) with portraits and a functional dialogue setup.",
+      "path": "Samples~"
+    }
+  ]
 }
