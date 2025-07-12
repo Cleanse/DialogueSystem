@@ -4,10 +4,9 @@
 .graph-view-pane {
     flex-grow: 1;
     background-color: #393939;
-    /*min-width: 300px;*/
 }
 
-/* Toolbar */
+/* Enhanced Toolbar with sections */
 .toolbar {
     position: absolute;
     top: 8px;
@@ -21,13 +20,22 @@
     flex-direction: row;
     align-items: center;
     padding: 0 8px;
+    justify-content: space-between;
 }
 
 .toolbar-title {
-    flex-grow: 1;
     color: #FFFFFF;
     font-size: 12px;
     -unity-font-style: bold;
+    margin-right: 8px;
+}
+
+.toolbar-hint {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 11px;
+    -unity-font-style: italic;
+    -unity-text-align: middle-center;
+    padding: 0 16px;
 }
 
 .toolbar-button {
@@ -37,12 +45,17 @@
     padding: 4px 8px;
     border-radius: 2px;
     border-width: 1px;
-    font-size: 14px;
+    font-size: 12px;
     margin-left: 4px;
+    min-width: 80px;
 }
 
 .toolbar-button:hover {
     background-color: #357ABD;
+}
+
+.toolbar-button:active {
+    background-color: #2868A3;
 }
 
 /* Node Styles */
