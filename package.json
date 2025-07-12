@@ -1,6 +1,6 @@
 {
   "name": "com.insomniaguildgames.dialoguesystem",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "displayName": "Dialogue System",
   "description": "A comprehensive graph-based dialogue system for Unity featuring character portraits, variables, conditional branching, and a powerful visual editor. Perfect for RPGs, visual novels, and story-driven games.",
   "unity": "2022.3",

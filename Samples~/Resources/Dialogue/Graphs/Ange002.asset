@@ -1,0 +1,211 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-8321088787999949130
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6cd8e684c9ff64ced8e33499c64139b8, type: 3}
+  m_Name: Speech Node - Marshal
+  m_EditorClassIdentifier: 
+  m_NodeId: 8c02d2c0-c4f4-41f2-9fb6-c2d322242fdd
+  m_Position: {x: -299, y: -283.5}
+  m_Connections:
+  - 4a75f819-4b1c-4b9a-bbe5-24c847e00b71
+  speakerName: Marshal
+  speakerCharacter: {fileID: 11400000, guid: b095aa50481004415bd55a2aa58599ce, type: 2}
+  portraitName: Default
+  dialogueText: Yo!
+--- !u!114 &-7100323694021562729
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 607241afb37034520b08441827f5804c, type: 3}
+  m_Name: Function Node
+  m_EditorClassIdentifier: 
+  m_NodeId: 95e399ba-88e2-4c78-b24a-12253bf39417
+  m_Position: {x: 1420, y: -457}
+  m_Connections: []
+  m_Functions:
+  - givegold
+--- !u!114 &-6177879811525115589
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 333611c35db9d409a8ff8efca4a12bd6, type: 3}
+  m_Name: Conditional Node
+  m_EditorClassIdentifier: 
+  m_NodeId: 4a75f819-4b1c-4b9a-bbe5-24c847e00b71
+  m_Position: {x: 51, y: -241}
+  m_Connections:
+  - 821738a6-b495-4365-a5d9-19b91dc6f8a3
+  - 38949b9e-9371-4048-9460-776ed24c2e9b
+  conditions:
+  - variableName: character_stitch_reputation
+    comparisonType: 0
+    valueType: 3
+    expectedValue: True
+    description: If has met Stitch.
+  logicType: 0
+  logEvaluation: 0
+--- !u!114 &-3636324805899998669
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6cd8e684c9ff64ced8e33499c64139b8, type: 3}
+  m_Name: Speech Node - Marshal
+  m_EditorClassIdentifier: 
+  m_NodeId: 06ceacdf-fd47-41e2-91be-ed4c48c3bda9
+  m_Position: {x: 967, y: -383}
+  m_Connections:
+  - 95e399ba-88e2-4c78-b24a-12253bf39417
+  speakerName: Marshal
+  speakerCharacter: {fileID: 11400000, guid: b095aa50481004415bd55a2aa58599ce, type: 2}
+  portraitName: Happy
+  dialogueText: I just happened to pass by the market on my way over. So he is in
+    luck.
+--- !u!114 &-2894503556183318571
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6cd8e684c9ff64ced8e33499c64139b8, type: 3}
+  m_Name: Speech Node - Ange
+  m_EditorClassIdentifier: 
+  m_NodeId: 821738a6-b495-4365-a5d9-19b91dc6f8a3
+  m_Position: {x: 489, y: -401}
+  m_Connections:
+  - 06ceacdf-fd47-41e2-91be-ed4c48c3bda9
+  speakerName: Ange
+  speakerCharacter: {fileID: 11400000, guid: 0f4469568928249479a384a8ebeee58a, type: 2}
+  portraitName: Happy
+  dialogueText: Stitch was hoping you brought him a fish!
+--- !u!114 &-639611360792464417
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6cd8e684c9ff64ced8e33499c64139b8, type: 3}
+  m_Name: Start Node
+  m_EditorClassIdentifier: 
+  m_NodeId: 6986d99c-6c06-4903-8aa0-ba1abc2ec60b
+  m_Position: {x: -681, y: -132}
+  m_Connections:
+  - 8c02d2c0-c4f4-41f2-9fb6-c2d322242fdd
+  speakerName: Speaker
+  speakerCharacter: {fileID: 11400000, guid: 0f4469568928249479a384a8ebeee58a, type: 2}
+  portraitName: Default
+  dialogueText: Hello
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e03262f0d28d04954840a5b17a7c9201, type: 3}
+  m_Name: Ange002
+  m_EditorClassIdentifier: 
+  m_Nodes:
+  - {fileID: -639611360792464417}
+  - {fileID: -8321088787999949130}
+  - {fileID: -6177879811525115589}
+  - {fileID: -2894503556183318571}
+  - {fileID: 3009839365431941665}
+  - {fileID: 5480621037719576860}
+  - {fileID: 5026945470631203543}
+  - {fileID: -3636324805899998669}
+  - {fileID: -7100323694021562729}
+  m_StartNodeId: 6986d99c-6c06-4903-8aa0-ba1abc2ec60b
+--- !u!114 &3009839365431941665
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6cd8e684c9ff64ced8e33499c64139b8, type: 3}
+  m_Name: Speech Node - Ange
+  m_EditorClassIdentifier: 
+  m_NodeId: 38949b9e-9371-4048-9460-776ed24c2e9b
+  m_Position: {x: 498, y: -41.5}
+  m_Connections:
+  - 7ef782a4-d46e-4e1f-9121-966182f5a65d
+  speakerName: Ange
+  speakerCharacter: {fileID: 11400000, guid: 0f4469568928249479a384a8ebeee58a, type: 2}
+  portraitName: Happy
+  dialogueText: This is my cat Stitch.
+--- !u!114 &5026945470631203543
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6cd8e684c9ff64ced8e33499c64139b8, type: 3}
+  m_Name: Speech Node - Marshal
+  m_EditorClassIdentifier: 
+  m_NodeId: 87bdb2c3-2ed2-4d76-af19-0fbc079462cc
+  m_Position: {x: 1267, y: -41.5}
+  m_Connections: []
+  speakerName: Marshal
+  speakerCharacter: {fileID: 11400000, guid: b095aa50481004415bd55a2aa58599ce, type: 2}
+  portraitName: Default
+  dialogueText: Nice to meet you Stitch. Next time I visit, I will bring you a fish.
+--- !u!114 &5480621037719576860
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a04fc8040959f4259b28356017b2cf97, type: 3}
+  m_Name: Variable Set Node
+  m_EditorClassIdentifier: 
+  m_NodeId: 7ef782a4-d46e-4e1f-9121-966182f5a65d
+  m_Position: {x: 888, y: 25}
+  m_Connections:
+  - 87bdb2c3-2ed2-4d76-af19-0fbc079462cc
+  operations:
+  - variableName: character_stitch_reputation
+    operationType: 0
+    valueType: 3
+    value: True
+    useCurrentVariableValue: 0
+    sourceVariableName: character_stitch_reputation
+  logOperations: 1

@@ -67,8 +67,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Press T to talk
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 5e547be73c733491cb02fbcdeabf6205, type: 2}
-  m_sharedMaterial: {fileID: 2095366234783748240, guid: 5e547be73c733491cb02fbcdeabf6205, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 3794937d6cae147c3a6334f3eeae8a45, type: 2}
+  m_sharedMaterial: {fileID: 2095366234783748240, guid: 3794937d6cae147c3a6334f3eeae8a45, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -204,7 +204,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -1646605209, guid: a8b1b9158f25f4c898d25dfd42a49557, type: 3}
+  m_Sprite: {fileID: -1646605209, guid: ce91146fc4d77428ba0ac06e530701d5, type: 3}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
