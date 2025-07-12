@@ -679,7 +679,6 @@ GridBackground {
     opacity: 0;
     max-height: 0;
     margin-bottom: 0;
-    pointer-events: none;
 }
 
 /* When character database is populated, hide speaker name fields */
@@ -687,5 +686,4 @@ GridBackground {
     opacity: 0;
     max-height: 0;
     margin-bottom: 0;
-    pointer-events: none;
 }
