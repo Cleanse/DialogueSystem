@@ -472,18 +472,5 @@ namespace DialogueSystem
         }
         
         #endregion
-        
-        #region Input Handling
-        
-        void Update()
-        {
-            // Allow escape key to close selection menu
-            if (selectionPanel != null && selectionPanel.activeInHierarchy && Input.GetKeyDown(KeyCode.Escape))
-            {
-                OnCancelClicked();
-            }
-        }
-        
-        #endregion
     }
 }
