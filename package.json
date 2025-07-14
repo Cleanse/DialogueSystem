@@ -1,12 +1,15 @@
 {
   "name": "com.insomniaguildgames.dialoguesystem",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "displayName": "Dialogue System",
-  "description": "A comprehensive graph-based dialogue system for Unity featuring character portraits, variables, conditional branching, and a powerful visual editor. Perfect for RPGs, visual novels, and story-driven games.",
+  "description": "A comprehensive graph-based dialogue system for Unity featuring character portraits, variables, conditional branching, and a powerful visual editor. Universal input compatibility supports both legacy Input Manager and new Input System. Zero configuration required - works out of the box. Perfect for RPGs, visual novels, and story-driven games.",
   "unity": "2022.3",
   "dependencies": {
     "com.unity.textmeshpro": "3.0.6",
     "com.unity.ugui": "1.0.0"
+  },
+  "optionalDependencies": {
+    "com.unity.inputsystem": "1.0.0"
   },
   "keywords": [
     "dialogue",
@@ -18,7 +21,11 @@
     "story",
     "visual novel",
     "ui",
-    "character"
+    "character",
+    "input system",
+    "cross-platform",
+    "zero config",
+    "plug and play"
   ],
   "author": {
     "name": "Paul E. Lovato",

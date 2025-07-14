@@ -5,6 +5,63 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.3] - 2025-07-14
+
+### Major Improvements
+- **Universal Input System Compatibility**: Complete rewrite of input handling to support both legacy Input Manager and new Input System packages
+- **Zero Configuration Setup**: Package now works out-of-the-box without requiring any user configuration or asset creation
+- **Production-Ready Logging**: Cleaned up debug output for professional deployment while maintaining developer debugging tools
+
+### Added
+- Automatic DialogueInputSettings creation at runtime with sensible defaults
+- Safe reflection-based Input System detection that doesn't break compilation
+- Conditional debug logging system controlled by `enableDebugLogging` flag
+- Context menu tools for developers (`Test Input Detection`, `Reset to Defaults`)
+- Comprehensive input fallback system (New Input System → Legacy Input Manager)
+- Static initialization system for proper ScriptableObject lifecycle management
+
+### Enhanced
+- **Input System Architecture**: Completely rebuilt for maximum compatibility and reliability
+- **UI Panel Management**: Improved initialization order and state validation
+- **Key Consumption Logic**: Fixed timing issues that caused "Key not available" errors
+- **Error Handling**: Graceful fallbacks with silent error recovery
+- **Package Integration**: Professional Unity Package Manager compliance
+
+### Fixed
+- **Critical**: Resolved Input System compilation errors when package is not installed
+- **Critical**: Fixed DialogueSelectionUI showing as active on startup
+- **Critical**: Eliminated "Key not available" errors in DialogueTrigger
+- Input key availability logic now uses OR instead of AND for multiple keys
+- UI panel state detection now properly validates both panel and runner state
+- ScriptableObject initialization issues resolved with static constructors
+- Frame-based input consumption timing corrected
+
+### Performance
+- Eliminated unnecessary debug string allocations in hot paths
+- Reduced reflection calls with smart caching
+- Simplified conditional checks and variable assignments
+- Optimized input detection with early returns
+
+### Technical
+- Moved from conditional compilation to safe reflection for Input System detection
+- Implemented hybrid input approach with multiple fallback layers
+- Added automatic runtime asset creation for zero-configuration workflow
+- Enhanced UI component validation and error recovery
+- Cleaned up compiler warnings and code quality issues
+
+### Developer Experience
+- Debug logging is now off by default for clean console output
+- Optional verbose logging available via `enableDebugLogging` toggle
+- Context menu debugging tools for troubleshooting
+- Simplified error messages with actionable information
+- Better separation between development and production logging
+
+### Backwards Compatibility
+- All existing DialogueInputSettings assets continue to work unchanged
+- No breaking changes to public APIs
+- Existing project configurations remain functional
+- Smooth upgrade path from previous versions
+
 ## [1.0.2] - 2025-07-12
 
 ### Fixed

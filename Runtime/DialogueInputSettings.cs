@@ -5,7 +5,7 @@ namespace DialogueSystem
 {
     /// <summary>
     /// Centralized input configuration for the dialogue system.
-    /// Supports dual keybinds for each interaction type.
+    /// Uses reflection to detect and support both input systems without compile-time dependencies.
     /// </summary>
     [CreateAssetMenu(fileName = "DialogueInputSettings", menuName = "Dialogue System/Input Settings")]
     public class DialogueInputSettings : ScriptableObject
@@ -24,6 +24,10 @@ namespace DialogueSystem
         [Tooltip("Secondary key for continuing dialogue (always available)")]
         public KeyCode secondaryContinueKey = KeyCode.Return;
         
+        [Header("Navigation Keys")]
+        [Tooltip("Key to cancel/close dialogue selection")]
+        public KeyCode cancelKey = KeyCode.Escape;
+        
         [Header("Input Settings")]
         [Tooltip("Whether interaction keys should also work for dialogue continuation")]
         public bool useInteractionKeysForContinuation = true;
@@ -31,9 +35,36 @@ namespace DialogueSystem
         [Tooltip("Whether to show all available keys in prompts")]
         public bool showAllKeysInPrompts = true;
         
-        // Input consumption tracking to prevent key conflicts between systems
+        [Header("Debug Settings")]
+        [Tooltip("Enable verbose logging for input debugging")]
+        public bool enableDebugLogging;
+        
+        // Input consumption tracking
         private HashSet<KeyCode> _consumedKeysThisFrame = new HashSet<KeyCode>();
         private int _lastConsumedFrame = -1;
+        
+        /// <summary>
+        /// Check if the new Input System is available using safe type checking.
+        /// </summary>
+        private static bool IsNewInputSystemAvailable()
+        {
+            try
+            {
+                // Use reflection to safely check if Input System is available
+                var keyboardType = System.Type.GetType("UnityEngine.InputSystem.Keyboard, Unity.InputSystem");
+                if (keyboardType == null) return false;
+                
+                var currentProperty = keyboardType.GetProperty("current", System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static);
+                if (currentProperty == null) return false;
+                
+                var keyboard = currentProperty.GetValue(null);
+                return keyboard != null;
+            }
+            catch
+            {
+                return false;
+            }
+        }
         
         /// <summary>
         /// Reset consumed keys tracking each frame.
@@ -49,6 +80,110 @@ namespace DialogueSystem
         }
         
         /// <summary>
+        /// Universal key press detection that works with both input systems.
+        /// </summary>
+        /// <param name="keyCode">The key to check</param>
+        /// <returns>True if the key was pressed this frame</returns>
+        private bool IsKeyPressed(KeyCode keyCode)
+        {
+            // Try new Input System first if available
+            if (IsNewInputSystemAvailable())
+            {
+                bool keyPressed = IsKeyPressedNewInputSystem(keyCode);
+                if (keyPressed && enableDebugLogging)
+                {
+                    Debug.Log($"[DialogueInputSettings] Key {keyCode} pressed via NEW Input System");
+                }
+                return keyPressed;
+            }
+            else
+            {
+                // Use legacy Input Manager as fallback
+                bool keyPressed = Input.GetKeyDown(keyCode);
+                if (keyPressed && enableDebugLogging)
+                {
+                    Debug.Log($"[DialogueInputSettings] Key {keyCode} pressed via LEGACY Input Manager");
+                }
+                return keyPressed;
+            }
+        }
+        
+        
+        /// <summary>
+        /// Check key press using new Input System via reflection (safe approach).
+        /// </summary>
+        /// <param name="keyCode">The key to check</param>
+        /// <returns>True if the key was pressed this frame</returns>
+        private bool IsKeyPressedNewInputSystem(KeyCode keyCode)
+        {
+            try
+            {
+                // Get keyboard instance via reflection
+                var keyboardType = System.Type.GetType("UnityEngine.InputSystem.Keyboard, Unity.InputSystem");
+                if (keyboardType == null) return false;
+                
+                var currentProperty = keyboardType.GetProperty("current", System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static);
+                if (currentProperty == null) return false;
+                
+                var keyboard = currentProperty.GetValue(null);
+                if (keyboard == null) return false;
+                
+                // Get the appropriate key property name
+                string keyPropertyName = GetKeyPropertyName(keyCode);
+                if (string.IsNullOrEmpty(keyPropertyName)) return false;
+                
+                // Get the key control
+                var keyProperty = keyboardType.GetProperty(keyPropertyName);
+                if (keyProperty == null) return false;
+                
+                var keyControl = keyProperty.GetValue(keyboard);
+                if (keyControl == null) return false;
+                
+                // Check wasPressedThisFrame
+                var wasPressedProperty = keyControl.GetType().GetProperty("wasPressedThisFrame");
+                if (wasPressedProperty == null) return false;
+                
+                return (bool)wasPressedProperty.GetValue(keyControl);
+            }
+            catch (System.Exception)
+            {
+                // Silently fall back to legacy input if new Input System fails
+                return false;
+            }
+        }
+        
+        /// <summary>
+        /// Get the Input System property name for a given KeyCode.
+        /// </summary>
+        private string GetKeyPropertyName(KeyCode keyCode)
+        {
+            return keyCode switch
+            {
+                KeyCode.T => "tKey",
+                KeyCode.E => "eKey",
+                KeyCode.F => "fKey",
+                KeyCode.Q => "qKey",
+                KeyCode.R => "rKey",
+                KeyCode.Space => "spaceKey",
+                KeyCode.Return => "enterKey",
+                KeyCode.Escape => "escapeKey",
+                KeyCode.Tab => "tabKey",
+                KeyCode.LeftShift => "leftShiftKey",
+                KeyCode.RightShift => "rightShiftKey",
+                KeyCode.LeftControl => "leftCtrlKey",
+                KeyCode.RightControl => "rightCtrlKey",
+                KeyCode.LeftAlt => "leftAltKey",
+                KeyCode.RightAlt => "rightAltKey",
+                KeyCode.UpArrow => "upArrowKey",
+                KeyCode.DownArrow => "downArrowKey",
+                KeyCode.LeftArrow => "leftArrowKey",
+                KeyCode.RightArrow => "rightArrowKey",
+                _ => null // Unsupported key, will fall back to legacy input
+            };
+        }
+        
+        
+        /// <summary>
         /// Check if any of the interaction keys are pressed this frame.
         /// </summary>
         /// <param name="primary">Primary interaction key to check</param>
@@ -58,12 +193,11 @@ namespace DialogueSystem
         {
             EnsureFrameReset();
             
-            // Use provided keys or fall back to defaults
             KeyCode primaryKey = primary != KeyCode.None ? primary : primaryInteractionKey;
             KeyCode secondaryKey = secondary != KeyCode.None ? secondary : secondaryInteractionKey;
             
-            bool primaryPressed = primaryKey != KeyCode.None && Input.GetKeyDown(primaryKey);
-            bool secondaryPressed = secondaryKey != KeyCode.None && Input.GetKeyDown(secondaryKey);
+            bool primaryPressed = primaryKey != KeyCode.None && IsKeyPressed(primaryKey);
+            bool secondaryPressed = secondaryKey != KeyCode.None && IsKeyPressed(secondaryKey);
             
             return primaryPressed || secondaryPressed;
         }
@@ -81,15 +215,14 @@ namespace DialogueSystem
             if (!IsInteractionKeyPressed(primary, secondary))
                 return false;
                 
-            // Use provided keys or fall back to defaults
             KeyCode primaryKey = primary != KeyCode.None ? primary : primaryInteractionKey;
             KeyCode secondaryKey = secondary != KeyCode.None ? secondary : secondaryInteractionKey;
             
-            // Check if either key is consumed
-            bool primaryConsumed = primaryKey != KeyCode.None && _consumedKeysThisFrame.Contains(primaryKey);
-            bool secondaryConsumed = secondaryKey != KeyCode.None && _consumedKeysThisFrame.Contains(secondaryKey);
+            // Check if ANY of the keys are not consumed (not requiring both to be available)
+            bool primaryAvailable = primaryKey == KeyCode.None || !_consumedKeysThisFrame.Contains(primaryKey);
+            bool secondaryAvailable = secondaryKey == KeyCode.None || !_consumedKeysThisFrame.Contains(secondaryKey);
             
-            return !primaryConsumed && !secondaryConsumed;
+            return primaryAvailable || secondaryAvailable;
         }
         
         /// <summary>
@@ -101,15 +234,18 @@ namespace DialogueSystem
         {
             EnsureFrameReset();
             
-            // Use provided keys or fall back to defaults
             KeyCode primaryKey = primary != KeyCode.None ? primary : primaryInteractionKey;
             KeyCode secondaryKey = secondary != KeyCode.None ? secondary : secondaryInteractionKey;
             
-            // Only consume keys that are actually pressed
-            if (primaryKey != KeyCode.None && Input.GetKeyDown(primaryKey))
+            // Only consume keys that were actually pressed this frame
+            if (primaryKey != KeyCode.None && IsKeyPressed(primaryKey))
+            {
                 _consumedKeysThisFrame.Add(primaryKey);
-            if (secondaryKey != KeyCode.None && Input.GetKeyDown(secondaryKey))
+            }
+            if (secondaryKey != KeyCode.None && IsKeyPressed(secondaryKey))
+            {
                 _consumedKeysThisFrame.Add(secondaryKey);
+            }
         }
         
         /// <summary>
@@ -118,10 +254,19 @@ namespace DialogueSystem
         /// <returns>True if any continuation key was pressed</returns>
         public bool IsContinueKeyPressed()
         {
-            bool primaryPressed = primaryContinueKey != KeyCode.None && Input.GetKeyDown(primaryContinueKey);
-            bool secondaryPressed = secondaryContinueKey != KeyCode.None && Input.GetKeyDown(secondaryContinueKey);
+            bool primaryPressed = primaryContinueKey != KeyCode.None && IsKeyPressed(primaryContinueKey);
+            bool secondaryPressed = secondaryContinueKey != KeyCode.None && IsKeyPressed(secondaryContinueKey);
             
             return primaryPressed || secondaryPressed;
+        }
+        
+        /// <summary>
+        /// Check if the cancel/escape key was pressed this frame.
+        /// </summary>
+        /// <returns>True if cancel key was pressed</returns>
+        public bool IsCancelKeyPressed()
+        {
+            return cancelKey != KeyCode.None && IsKeyPressed(cancelKey);
         }
         
         /// <summary>
@@ -137,6 +282,16 @@ namespace DialogueSystem
                                     IsInteractionKeyPressed(interactionPrimary, interactionSecondary);
             
             return continuePressed || interactionPressed;
+        }
+        
+        /// <summary>
+        /// Check if a specific key was pressed this frame (public version for external use).
+        /// </summary>
+        /// <param name="keyCode">The key to check</param>
+        /// <returns>True if the key was pressed this frame</returns>
+        public bool IsSpecificKeyPressed(KeyCode keyCode)
+        {
+            return keyCode != KeyCode.None && IsKeyPressed(keyCode);
         }
         
         /// <summary>
@@ -170,15 +325,13 @@ namespace DialogueSystem
         /// <returns>Formatted key string (e.g., "Space, Enter, T, or E")</returns>
         public string GetAdvancementKeyText(KeyCode interactionPrimary = KeyCode.None, KeyCode interactionSecondary = KeyCode.None)
         {
-            var keys = new System.Collections.Generic.List<string>();
+            var keys = new List<string>();
             
-            // Add continue keys
             if (primaryContinueKey != KeyCode.None)
                 keys.Add(GetKeyDisplayName(primaryContinueKey));
             if (secondaryContinueKey != KeyCode.None)
                 keys.Add(GetKeyDisplayName(secondaryContinueKey));
             
-            // Add interaction keys if enabled
             if (useInteractionKeysForContinuation)
             {
                 KeyCode primaryKey = interactionPrimary != KeyCode.None ? interactionPrimary : primaryInteractionKey;
@@ -199,7 +352,6 @@ namespace DialogueSystem
             if (keys.Count == 2)
                 return $"{keys[0]} or {keys[1]}";
             
-            // For 3+ keys, use comma separation with "or" before the last one
             var result = string.Join(", ", keys.GetRange(0, keys.Count - 1));
             result += $", or {keys[keys.Count - 1]}";
             return result;
@@ -236,6 +388,34 @@ namespace DialogueSystem
         }
         
         /// <summary>
+        /// Get or create a DialogueInputSettings instance with default values.
+        /// This ensures the input system works even without explicit asset creation.
+        /// </summary>
+        public static DialogueInputSettings GetOrCreateDefaultSettings()
+        {
+            // Try to find existing input settings in Resources first
+            var settings = Resources.Load<DialogueInputSettings>("DialogueInputSettings");
+            
+            if (settings == null)
+            {
+                settings = ScriptableObject.CreateInstance<DialogueInputSettings>();
+                settings.ResetToDefaults();
+            }
+            
+            return settings;
+        }
+        
+        /// <summary>
+        /// Debug method to test input detection (Editor only - for troubleshooting)
+        /// </summary>
+        [ContextMenu("Test Input Detection")]
+        public void TestInputDetection()
+        {
+            Debug.Log($"DialogueInputSettings - Primary: {primaryInteractionKey}, Secondary: {secondaryInteractionKey}, " +
+                     $"New Input System: {IsNewInputSystemAvailable()}, Key Available: {IsInteractionKeyAvailable()}");
+        }
+        
+        /// <summary>
         /// Create a default input settings asset.
         /// </summary>
         [ContextMenu("Reset to Defaults")]
@@ -245,8 +425,10 @@ namespace DialogueSystem
             secondaryInteractionKey = KeyCode.E;
             primaryContinueKey = KeyCode.Space;
             secondaryContinueKey = KeyCode.Return;
+            cancelKey = KeyCode.Escape;
             useInteractionKeysForContinuation = true;
             showAllKeysInPrompts = true;
+            enableDebugLogging = false; // Disable debug by default for production
             
             #if UNITY_EDITOR
             UnityEditor.EditorUtility.SetDirty(this);

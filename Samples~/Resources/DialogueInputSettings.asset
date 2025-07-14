@@ -13,8 +13,10 @@ MonoBehaviour:
   m_Name: DialogueInputSettings
   m_EditorClassIdentifier: 
   primaryInteractionKey: 116
-  secondaryInteractionKey: 0
-  primaryContinueKey: 116
-  secondaryContinueKey: 323
+  secondaryInteractionKey: 101
+  primaryContinueKey: 32
+  secondaryContinueKey: 13
+  cancelKey: 27
   useInteractionKeysForContinuation: 1
   showAllKeysInPrompts: 1
+  enableDebugLogging: 1

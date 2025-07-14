@@ -41,7 +41,16 @@ namespace DialogueSystem
         /// <summary>
         /// Check if dialogue selection is currently active.
         /// </summary>
-        public bool IsSelectionActive => selectionPanel != null && selectionPanel.activeInHierarchy;
+        public bool IsSelectionActive 
+        { 
+            get 
+            {
+                if (selectionPanel == null) return false;
+                bool isActive = selectionPanel.activeInHierarchy;
+                return isActive;
+            }
+        }
+
         
         [Header("Input Settings")]
         [Tooltip("Global input settings for dialogue system. If null, will create default settings.")]
@@ -49,6 +58,14 @@ namespace DialogueSystem
         
         void Awake()
         {
+            // Validate required components first
+            if (selectionPanel == null)
+            {
+                Debug.LogError("DialogueSelectionUI: Selection panel is not assigned!");
+                enabled = false;
+                return;
+            }
+            
             // Get or find DialogueUI
             _dialogueUI = FindFirstObjectByType<DialogueUI>();
             if (_dialogueUI == null)
@@ -59,20 +76,12 @@ namespace DialogueSystem
             // Initialize input settings if not assigned
             if (inputSettings == null)
             {
-                // Try to find existing input settings in Resources
-                inputSettings = Resources.Load<DialogueInputSettings>("DialogueInputSettings");
-                
-                // If still null, create default settings at runtime
-                if (inputSettings == null)
-                {
-                    inputSettings = ScriptableObject.CreateInstance<DialogueInputSettings>();
-                    inputSettings.ResetToDefaults();
-                }
+                inputSettings = DialogueInputSettings.GetOrCreateDefaultSettings();
             }
             
             // Get canvas group for animations
-            _canvasGroup = selectionPanel?.GetComponent<CanvasGroup>();
-            if (_canvasGroup == null && selectionPanel != null)
+            _canvasGroup = selectionPanel.GetComponent<CanvasGroup>();
+            if (_canvasGroup == null)
             {
                 _canvasGroup = selectionPanel.AddComponent<CanvasGroup>();
             }
@@ -83,13 +92,18 @@ namespace DialogueSystem
                 cancelButton.onClick.AddListener(OnCancelClicked);
             }
             
-            // Hide selection UI initially
-            SetSelectionUIActive(false);
-            
             // Set default instruction text
             if (instructionText != null)
             {
                 instructionText.text = "Choose a conversation topic:";
+            }
+            
+            // Ensure selection UI is explicitly disabled on start
+            selectionPanel.SetActive(false);
+            if (_canvasGroup != null)
+            {
+                _canvasGroup.alpha = 0f;
+                _canvasGroup.interactable = false;
             }
         }
         
@@ -181,6 +195,11 @@ namespace DialogueSystem
             else
             {
                 selectionPanel.SetActive(active);
+                if (_canvasGroup != null)
+                {
+                    _canvasGroup.alpha = active ? 1f : 0f;
+                    _canvasGroup.interactable = active;
+                }
             }
         }
         
@@ -471,6 +490,19 @@ namespace DialogueSystem
             }
         }
         
+        #endregion
+        
+        #region Input Handling
+
+        void Update()
+        {
+            // Allow cancel key to close selection menu
+            if (IsSelectionActive && inputSettings != null && inputSettings.IsCancelKeyPressed())
+            {
+                OnCancelClicked();
+            }
+        }
+
         #endregion
     }
 }

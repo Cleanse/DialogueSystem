@@ -62,9 +62,35 @@ Split-pane editor window (`DialogueGraphWindow`) with:
 ## Unity Package Dependencies
 
 - App UI (1.1.1) - Required for editor tools and UI framework
-- Input System (1.14.0) - For keyboard shortcuts and input handling
+- Input System (1.14.0) - OPTIONAL: Automatically detected and used if available
 - URP (17.1.0) - Universal Render Pipeline
 - TextMeshPro - Text rendering for dialogue UI
+
+## Input System Architecture (v1.0.3+)
+
+The dialogue system features **universal input compatibility** that automatically works with both Unity input systems:
+
+### Automatic Detection
+- **DialogueInputSettings**: Uses safe reflection to detect available input systems
+- **Graceful Fallback**: New Input System → Legacy Input Manager
+- **Zero Configuration**: Creates runtime settings automatically with sensible defaults
+- **No Compilation Errors**: Safe reflection ensures compatibility regardless of installed packages
+
+### Key Components
+- **DialogueInputSettings.cs**: Central input management with hybrid detection
+- **Runtime Asset Creation**: `GetOrCreateDefaultSettings()` eliminates user setup requirements
+- **Input Consumption System**: Frame-based key consumption prevents conflicts
+- **Debug Tools**: Context menu testing and conditional logging
+
+### Default Key Bindings
+- **Interaction**: T (primary), E (secondary)
+- **Continuation**: Space (primary), Enter (secondary)  
+- **Cancel**: Escape
+
+### Developer Tools
+- Right-click DialogueInputSettings → "Test Input Detection" for troubleshooting
+- Toggle `enableDebugLogging` for verbose input logging
+- Context menu "Reset to Defaults" for quick configuration
 
 ## Development Workflow
 
@@ -102,3 +128,20 @@ UI components use Unity's UI Elements. The main UI controller is `DialogueUI.cs`
 - [ ] Verified no existing hook handles this state
 - [ ] Confirmed can't extend existing methods
 - [ ] Considered if feature flag in existing component works
+
+### R - Recursive Decomposition (Least-to-Most)
+
+Break complex fixes into atomic operations:
+- Level 0: Identify core problem
+- Level 1: Decompose into sub-problems
+- Level 2: Solve each sub-problem
+- Level 3: Integrate solutions
+- Level 4: Validate complete fix
+
+### I - Intelligent Mutation (SAMMO-Inspired for Unity C#)
+
+Apply mutation operators to generate optimal Unity C# implementations:
+- PARAPHRASE: Rewrite logic using alternative, idiomatic C# structures (e.g., LINQ, extension methods, delegates)
+- INDUCE: Analyze working code to identify reusable design patterns (e.g., Singleton, Strategy, Observer)
+- COMBINE: Merge effective implementation techniques from multiple scripts (e.g., blend coroutine timing with state machine behavior)
+- ABSTRACT: Extract and generalize code into reusable MonoBehaviours, ScriptableObjects, or interfaces with proper inheritance and decoupling

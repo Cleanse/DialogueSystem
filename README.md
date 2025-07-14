@@ -1,6 +1,6 @@
 # Dialogue System
 
-A comprehensive graph-based dialogue system for Unity featuring character portraits, variables, conditional branching, and a powerful visual editor. Perfect for RPGs, visual novels, and story-driven games.
+A comprehensive graph-based dialogue system for Unity featuring character portraits, variables, conditional branching, and a powerful visual editor. **Universal input compatibility** supports both legacy Input Manager and new Input System. **Zero configuration required** - works out of the box. Perfect for RPGs, visual novels, and story-driven games.
 
 ## Features
 
@@ -10,6 +10,9 @@ A comprehensive graph-based dialogue system for Unity featuring character portra
 - **Conditional Logic**: Complex branching with AND/OR operations
 - **Function Integration**: Custom game function execution
 - **UI Framework**: Complete UI system with typewriter effects and keyboard navigation
+- **Universal Input Support**: Works with both legacy Input Manager and new Input System automatically
+- **Zero Configuration**: Plug-and-play setup with automatic runtime configuration
+- **Production Ready**: Clean logging and professional error handling
 - **Audio Support**: Character voice integration (architecture in place)
 - **Editor Tools**: Custom property drawers and enhanced inspectors
 
@@ -34,6 +37,21 @@ After installing the package:
 2. Select "In Project" and find "Dialogue System"
 3. Click "Import" next to "Complete Dialogue System" sample
 4. Sample assets will be imported to `Assets/Samples/Dialogue System/[version]/Complete Dialogue System/`
+
+## Input System Compatibility
+
+This package automatically supports both Unity's input systems:
+
+- **Legacy Input Manager**: Works out of the box with no setup required
+- **New Input System**: Automatically detected and used when package is installed
+- **Hybrid Support**: Gracefully falls back between systems for maximum compatibility
+- **Zero Configuration**: No setup required regardless of which input system you use
+
+The system automatically creates runtime settings with sensible defaults (T and E for interaction, Space and Enter for continuation). For custom configurations, you can:
+
+1. Create a DialogueInputSettings asset: Right-click → Create → Dialogue System → Input Settings
+2. Place it in a Resources folder to be automatically detected
+3. Or assign it directly to DialogueUI, DialogueSelectionUI, or DialogueTrigger components
 
 ## Quick Start
 

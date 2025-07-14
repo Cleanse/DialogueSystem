@@ -49,10 +49,26 @@ namespace DialogueSystem
         /// <summary>
         /// Check if dialogue is currently active.
         /// </summary>
-        public bool IsDialogueActive => dialoguePanel != null && dialoguePanel.activeInHierarchy;
+        public bool IsDialogueActive 
+        { 
+            get 
+            {
+                if (dialoguePanel == null) return false;
+                return dialoguePanel.activeInHierarchy && (_dialogueRunner?.IsRunning ?? false);
+            }
+        }
+        
         
         void Awake()
         {
+            // Validate required components first
+            if (dialoguePanel == null)
+            {
+                Debug.LogError("DialogueUI: Dialogue panel is not assigned!");
+                enabled = false;
+                return;
+            }
+            
             // Get or create DialogueRunner
             _dialogueRunner = FindFirstObjectByType<DialogueRunner>();
             if (_dialogueRunner == null)
@@ -64,17 +80,7 @@ namespace DialogueSystem
             // Initialize input settings if not assigned
             if (inputSettings == null)
             {
-                // Try to find existing input settings in Resources
-                inputSettings = Resources.Load<DialogueInputSettings>("DialogueInputSettings");
-                
-                // If still null, create default settings at runtime
-                if (inputSettings == null)
-                {
-                    inputSettings = ScriptableObject.CreateInstance<DialogueInputSettings>();
-                    inputSettings.ResetToDefaults();
-                    Debug.LogWarning("DialogueUI: No DialogueInputSettings assigned. Using default settings. " +
-                                   "Consider creating a DialogueInputSettings asset for persistent configuration.");
-                }
+                inputSettings = DialogueInputSettings.GetOrCreateDefaultSettings();
             }
             
             // Subscribe to dialogue events
@@ -90,8 +96,8 @@ namespace DialogueSystem
                 continueButton.onClick.AddListener(OnContinueClicked);
             }
             
-            // Hide UI initially
-            SetDialogueUIActive(false);
+            // Ensure dialogue UI is explicitly disabled on start
+            dialoguePanel.SetActive(false);
         }
         
         void OnDestroy()
@@ -196,10 +202,7 @@ namespace DialogueSystem
         
         void OnFunctionRan(FunctionNode functionNode)
         {
-            Debug.Log($"Function node executed with functions: {string.Join(", ", functionNode.Functions)}");
-            
-            // Here you would implement your function calls
-            // For example:
+            // Execute all functions in the function node
             foreach (string functionName in functionNode.Functions)
             {
                 ExecuteFunction(functionName);
@@ -416,23 +419,20 @@ namespace DialogueSystem
             }
         }
         
-        // Example function implementations, need to create full system soonTM
+        // Example function implementations - customize these for your game
         void GiveGold()
         {
-            Debug.Log("NYI. Player received gold!");
-            // Implement gold-giving logic here
+            // TODO: Implement gold-giving logic here
         }
         
         void AddItem()
         {
-            Debug.Log("NYI. Item added to inventory!");
-            // Implement item-adding logic here
+            // TODO: Implement item-adding logic here  
         }
         
         void PlayDialogueSound()
         {
-            Debug.Log("NYI. Playing dialogue sound effect!");
-            // Implement sound playing logic here
+            // TODO: Implement sound playing logic here
         }
         
         #endregion

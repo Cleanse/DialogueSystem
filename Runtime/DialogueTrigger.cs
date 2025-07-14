@@ -54,15 +54,7 @@ namespace DialogueSystem
             // Initialize input settings if not assigned
             if (inputSettings == null)
             {
-                // Try to find existing input settings in Resources
-                inputSettings = Resources.Load<DialogueInputSettings>("DialogueInputSettings");
-                
-                // If still null, create default settings at runtime
-                if (inputSettings == null)
-                {
-                    inputSettings = ScriptableObject.CreateInstance<DialogueInputSettings>();
-                    inputSettings.ResetToDefaults();
-                }
+                inputSettings = DialogueInputSettings.GetOrCreateDefaultSettings();
             }
             
             // Find UI components
@@ -101,24 +93,29 @@ namespace DialogueSystem
         {
             if (!triggerOnInteraction || _playerTransform == null)
                 return;
-            
+    
             // Check distance to player
             float distanceToPlayer = Vector3.Distance(transform.position, _playerTransform.position);
             bool wasInRange = _playerInRange;
             _playerInRange = distanceToPlayer <= interactionDistance;
-            
-            // Show/hide interaction prompt
+    
+            // Show/hide interaction prompt when player enters/leaves range
             if (_playerInRange != wasInRange)
             {
                 ShowInteractionPrompt(_playerInRange);
             }
-            
+    
             // Check for interaction input (only if no dialogue is active and key is available)
-            if (_playerInRange && inputSettings != null && 
-                !IsAnyDialogueActive() && 
-                inputSettings.IsInteractionKeyAvailable())
+            if (_playerInRange && inputSettings != null)
             {
-                TriggerDialogue();
+                bool dialogueActive = IsAnyDialogueActive();
+                bool keyAvailable = inputSettings.IsInteractionKeyAvailable();
+        
+                if (!dialogueActive && keyAvailable)
+                {
+                    inputSettings.ConsumeInteractionKey();
+                    TriggerDialogue();
+                }
             }
         }
         
@@ -309,14 +306,12 @@ namespace DialogueSystem
         private bool IsAnyDialogueActive()
         {
             // Check DialogueUI state
-            if (_dialogueUI != null && _dialogueUI.IsDialogueActive)
-                return true;
-                
+            bool dialogueUIActive = _dialogueUI != null && _dialogueUI.IsDialogueActive;
+            
             // Check DialogueSelectionUI state
-            if (_dialogueSelectionUI != null && _dialogueSelectionUI.IsSelectionActive)
-                return true;
-                
-            return false;
+            bool selectionUIActive = _dialogueSelectionUI != null && _dialogueSelectionUI.IsSelectionActive;
+    
+            return dialogueUIActive || selectionUIActive;
         }
         
         /// <summary>
@@ -626,7 +621,6 @@ namespace DialogueSystem
                 priority = 0
             });
             
-            Debug.Log($"Added {dialogueOptions.Count} sample dialogue options");
         }
         
         [ContextMenu("Convert Single Dialogue to Option")]
@@ -645,12 +639,6 @@ namespace DialogueSystem
                 
                 dialogueOptions.Add(newOption);
                 dialogueGraph = null; // Clear the single dialogue
-                
-                Debug.Log("Converted single dialogue to dialogue option");
-            }
-            else
-            {
-                Debug.LogWarning("No single dialogue to convert");
             }
         }
         
